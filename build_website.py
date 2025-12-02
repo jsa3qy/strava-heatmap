@@ -273,7 +273,8 @@ def build_website():
     print("✓ Website built: index.html")
     print("\nFiles needed for deployment:")
     print("  - index.html")
-    print("  - heatmap.html")
+    print("  - heatmap.html (interactive map for desktop)")
+    print("  - heatmap_static.png (static map for mobile)")
     print("  - stats.json")
 
 
