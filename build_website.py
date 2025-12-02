@@ -127,11 +127,18 @@ def build_website():
             font-size: 1.8em;
         }}
 
-        iframe {{
+        .interactive-map {{
             width: 100%;
             height: 700px;
             border: none;
             display: block;
+        }}
+
+        .static-map {{
+            display: none;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
         }}
 
         .activity-types {{
@@ -198,8 +205,14 @@ def build_website():
                 grid-template-columns: 1fr;
             }}
 
-            iframe {{
-                height: 500px;
+            /* Hide interactive map on mobile */
+            .interactive-map {{
+                display: none;
+            }}
+
+            /* Show static map on mobile */
+            .static-map {{
+                display: block;
             }}
         }}
     </style>
@@ -234,7 +247,8 @@ def build_website():
             <div class="map-header">
                 <h2>Interactive Heatmap</h2>
             </div>
-            <iframe src="heatmap.html" title="Activity Heatmap"></iframe>
+            <iframe src="heatmap.html" title="Activity Heatmap" class="interactive-map"></iframe>
+            <img src="heatmap_static.png" alt="Activity Heatmap" class="static-map">
         </div>
 
         {f'''<div class="activity-types">
