@@ -1,0 +1,14 @@
+config.json
+strava_tokens.json
+__pycache__/
+*.pyc
+.env
+
+# Generated files (deployed to gh-pages)
+index.html
+heatmap.html
+stats.json
+
+# Keep activities.geojson in version control for history
+# Uncomment the line below if you don't want to track it:
+# activities.geojson

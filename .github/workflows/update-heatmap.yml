@@ -1,0 +1,103 @@
+name: Update Strava Heatmap
+
+on:
+  # Run daily at 6 AM UTC
+  schedule:
+    - cron: '0 6 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+  # Run on push to main (for testing)
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create config.json from secrets
+        run: |
+          echo '{
+            "client_id": "${{ secrets.STRAVA_CLIENT_ID }}",
+            "client_secret": "${{ secrets.STRAVA_CLIENT_SECRET }}"
+          }' > config.json
+
+      - name: Restore cached tokens
+        uses: actions/cache@v3
+        with:
+          path: strava_tokens.json
+          key: strava-tokens-${{ github.run_id }}
+          restore-keys: |
+            strava-tokens-
+
+      - name: Restore cached activities
+        uses: actions/cache@v3
+        with:
+          path: activities.geojson
+          key: activities-${{ github.run_id }}
+          restore-keys: |
+            activities-
+
+      - name: Refresh Strava access token
+        run: |
+          python3 refresh_token.py
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+
+      - name: Update activities from Strava
+        run: |
+          python3 update_activities.py
+
+      - name: Generate heatmap
+        run: |
+          python3 generate_heatmap.py
+
+      - name: Generate statistics
+        run: |
+          python3 generate_stats.py
+
+      - name: Build website
+        run: |
+          python3 build_website.py
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: false
+          include_assets: |
+            index.html
+            heatmap.html
+            stats.json
+
+      - name: Commit updated data files
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add activities.geojson strava_tokens.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update activities data [skip ci]"
+          git push
+        continue-on-error: true
