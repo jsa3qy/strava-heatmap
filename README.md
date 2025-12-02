@@ -9,6 +9,14 @@ A Python toolkit to fetch your Strava activities and generate beautiful interact
 - 🗺️ Generate interactive HTML heatmaps with multiple color schemes
 - 💾 Efficient GeoJSON storage format
 - 🎨 Customizable visualizations with multiple map styles
+- 🌐 **Deploy as auto-updating website with GitHub Pages**
+- 🤖 **Automated daily updates via GitHub Actions**
+
+## Quick Links
+
+- **[Local Setup](#setup)** - Run scripts locally
+- **[Deploy Website](DEPLOYMENT.md)** - Host on GitHub Pages with auto-updates
+- **[Customization](#customization)** - Adjust colors, styles, and settings
 
 ## Setup
 
@@ -116,20 +124,77 @@ Creates an interactive HTML heatmap from your GeoJSON data.
 python generate_heatmap.py [color_scheme]
 ```
 
+## Website Deployment
+
+Want to host your heatmap as a live website that updates automatically?
+
+**See [DEPLOYMENT.md](DEPLOYMENT.md) for complete instructions.**
+
+Quick overview:
+1. Push this repo to GitHub
+2. Add Strava credentials as GitHub Secrets
+3. Enable GitHub Pages
+4. GitHub Actions will automatically update your heatmap daily!
+
+Your website will include:
+- Beautiful landing page with statistics
+- Interactive embedded heatmap
+- Activity breakdown by type
+- Auto-updates every day at 6 AM UTC
+
+## Customization
+
+### Heatmap Appearance
+
+Edit `generate_heatmap.py` (lines 91-97):
+
+```python
+HeatMap(
+    self.all_points,
+    min_opacity=0.4,  # Transparency: 0.0-1.0
+    radius=2,         # Line thickness: 1-10
+    blur=1,           # Sharpness: 0 (sharp) - 10 (fuzzy)
+    ...
+)
+```
+
+### Color Schemes
+
+Use different color schemes when generating:
+
+```bash
+python3 generate_heatmap.py default  # Blue to red
+python3 generate_heatmap.py heat     # Navy to yellow
+python3 generate_heatmap.py purple   # Purple to pink
+python3 generate_heatmap.py green    # Dark green to yellow
+```
+
+### Website Design
+
+Edit `build_website.py` to customize:
+- Colors and fonts (CSS in the `<style>` section)
+- Statistics displayed
+- Page layout and text
+
 ## Files
 
 - `strava_activities.py` - Activity viewer
 - `import_gpx.py` - GPX to GeoJSON converter
 - `update_activities.py` - Incremental activity updater
 - `generate_heatmap.py` - Heatmap visualization generator
+- `generate_stats.py` - Statistics generator for website
+- `build_website.py` - Website builder
+- `refresh_token.py` - Token refresher for automation
 - `config.json` - API credentials (not in git)
 - `strava_tokens.json` - Auth tokens (not in git)
-- `activities.geojson` - Your GPS data (not in git)
-- `heatmap.html` - Generated visualization (not in git)
+- `activities.geojson` - Your GPS data
+- `heatmap.html` - Generated visualization
+- `index.html` - Website landing page
+- `stats.json` - Activity statistics
 
 ## Tips
 
 - **First time setup**: Use bulk export to get all historical data, then use API for updates
 - **Rate limits**: Strava API has rate limits (100 requests per 15 minutes), bulk export bypasses this
 - **Storage**: GeoJSON files can get large with many activities - consider keeping backups
-- **Customization**: Edit `generate_heatmap.py` to adjust heatmap parameters (radius, blur, opacity)
+- **Testing locally**: Run all scripts locally before deploying to catch any issues
