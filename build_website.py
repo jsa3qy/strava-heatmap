@@ -58,6 +58,17 @@ def build_website():
             flex: 1;
             position: relative;
             overflow: hidden;
+            background: #f5f5f5;
+        }}
+
+        .loading {{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #737373;
+            font-size: 14px;
+            font-weight: 300;
         }}
 
         iframe {{
@@ -67,6 +78,7 @@ def build_website():
             display: block;
             touch-action: manipulation;
             -webkit-overflow-scrolling: touch;
+            background: transparent;
         }}
 
         .footer {{
@@ -100,12 +112,39 @@ def build_website():
 </head>
 <body>
     <div class="map-container">
-        <iframe src="heatmap.html" title="Activity Heatmap"></iframe>
+        <div class="loading" id="loading">Loading map...</div>
+        <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe" onload="hideLoading()"></iframe>
     </div>
     <div class="footer">
         <span class="footer-name">Jesse Alloy</span>
         <span class="footer-count">{stats.get('total_activities', 0)} activities</span>
     </div>
+    <script>
+        function hideLoading() {{
+            const loading = document.getElementById('loading');
+            if (loading) {{
+                loading.style.display = 'none';
+            }}
+        }}
+
+        // Fallback timeout - if map doesn't load in 10 seconds, show error
+        setTimeout(function() {{
+            const loading = document.getElementById('loading');
+            if (loading && loading.style.display !== 'none') {{
+                loading.textContent = 'Map failed to load. Try refreshing.';
+            }}
+        }}, 10000);
+
+        // Also try to detect iframe load errors
+        const iframe = document.getElementById('map-iframe');
+        iframe.onerror = function() {{
+            const loading = document.getElementById('loading');
+            if (loading) {{
+                loading.textContent = 'Error loading map';
+                loading.style.display = 'block';
+            }}
+        }};
+    </script>
 </body>
 </html>
 """
