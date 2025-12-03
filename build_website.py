@@ -114,6 +114,7 @@ def build_website():
             box-shadow: 0 10px 50px rgba(0,0,0,0.3);
             overflow: hidden;
             margin: 30px 0;
+            position: relative;
         }}
 
         .map-header {{
@@ -127,18 +128,13 @@ def build_website():
             font-size: 1.8em;
         }}
 
-        .interactive-map {{
+        iframe {{
             width: 100%;
             height: 700px;
             border: none;
             display: block;
-        }}
-
-        .static-map {{
-            display: none;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
+            touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
         }}
 
         .activity-types {{
@@ -205,14 +201,8 @@ def build_website():
                 grid-template-columns: 1fr;
             }}
 
-            /* Hide interactive map on mobile */
-            .interactive-map {{
-                display: none;
-            }}
-
-            /* Show static map on mobile */
-            .static-map {{
-                display: block;
+            iframe {{
+                height: 500px;
             }}
         }}
     </style>
@@ -247,8 +237,7 @@ def build_website():
             <div class="map-header">
                 <h2>Interactive Heatmap</h2>
             </div>
-            <iframe src="heatmap.html" title="Activity Heatmap" class="interactive-map"></iframe>
-            <img src="heatmap_static.png" alt="Activity Heatmap" class="static-map">
+            <iframe src="heatmap.html" title="Activity Heatmap"></iframe>
         </div>
 
         {f'''<div class="activity-types">
@@ -273,8 +262,7 @@ def build_website():
     print("✓ Website built: index.html")
     print("\nFiles needed for deployment:")
     print("  - index.html")
-    print("  - heatmap.html (interactive map for desktop)")
-    print("  - heatmap_static.png (static map for mobile)")
+    print("  - heatmap.html")
     print("  - stats.json")
 
 

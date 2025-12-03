@@ -7,7 +7,6 @@ __pycache__/
 # Generated files (deployed to gh-pages)
 index.html
 heatmap.html
-heatmap_static.png
 stats.json
 
 # Keep activities.geojson in version control for history
