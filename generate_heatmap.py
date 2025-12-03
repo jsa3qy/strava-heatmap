@@ -56,19 +56,27 @@ class HeatmapGenerator:
 
         return [avg_lat, avg_lon]
 
-    def create_heatmap(self, gradient=None):
-        """Create the heatmap visualization"""
+    def create_heatmap(self, gradient=None, center=None, zoom_start=11):
+        """Create the heatmap visualization
+
+        Args:
+            gradient: Color gradient dictionary
+            center: [lat, lon] to center the map (default: Anchorage, AK)
+            zoom_start: Initial zoom level
+        """
         if not self.all_points:
             return None
 
-        # Calculate center point
-        center = self.calculate_center()
+        # Use Anchorage, Alaska as default center (1.5 miles SE of downtown)
+        if center is None:
+            center = [61.2027, -149.8691]  # Anchorage, AK
+
         print(f"Map center: {center[0]:.4f}, {center[1]:.4f}")
 
         # Create base map
         m = folium.Map(
             location=center,
-            zoom_start=12,
+            zoom_start=zoom_start,
             tiles='OpenStreetMap'
         )
 
