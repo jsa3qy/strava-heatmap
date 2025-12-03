@@ -28,13 +28,16 @@ def build_website():
     # Extract just the map portion (folium creates a full HTML doc)
     # We'll embed it in an iframe instead
 
-    # Build the landing page
+    # Build minimalist full-screen page
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Strava Activity Heatmap</title>
+    <title>Activity Heatmap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet">
     <style>
         * {{
             margin: 0;
@@ -43,213 +46,65 @@ def build_website():
         }}
 
         body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            min-height: 100vh;
-        }}
-
-        .container {{
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-
-        header {{
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-        }}
-
-        h1 {{
-            font-size: 3em;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }}
-
-        .subtitle {{
-            font-size: 1.2em;
-            opacity: 0.9;
-        }}
-
-        .stats-container {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }}
-
-        .stat-card {{
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }}
-
-        .stat-card:hover {{
-            transform: translateY(-5px);
-        }}
-
-        .stat-value {{
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 10px;
-        }}
-
-        .stat-label {{
-            font-size: 0.9em;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: #fafafa;
         }}
 
         .map-container {{
-            background: white;
-            border-radius: 15px;
-            padding: 0;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            overflow: hidden;
-            margin: 30px 0;
+            flex: 1;
             position: relative;
-        }}
-
-        .map-header {{
-            padding: 20px 30px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-        }}
-
-        .map-header h2 {{
-            color: #333;
-            font-size: 1.8em;
+            overflow: hidden;
         }}
 
         iframe {{
             width: 100%;
-            height: 700px;
+            height: 100%;
             border: none;
             display: block;
             touch-action: manipulation;
             -webkit-overflow-scrolling: touch;
         }}
 
-        .activity-types {{
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin: 30px 0;
-        }}
-
-        .activity-types h3 {{
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.5em;
-        }}
-
-        .activity-type {{
+        .footer {{
+            background: #f5f5f5;
+            padding: 18px 28px;
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e9ecef;
+            align-items: center;
+            border-top: 1px solid #d4d4d4;
+            font-size: 13px;
+            letter-spacing: 0.02em;
         }}
 
-        .activity-type:last-child {{
-            border-bottom: none;
+        .footer-name {{
+            font-weight: 400;
+            color: #171717;
         }}
 
-        .activity-name {{
-            font-weight: 500;
-            color: #555;
+        .footer-count {{
+            font-weight: 300;
+            color: #737373;
         }}
 
-        .activity-count {{
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }}
-
-        footer {{
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            opacity: 0.8;
-        }}
-
-        .last-updated {{
-            background: rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 0.9em;
-        }}
-
-        @media (max-width: 768px) {{
-            h1 {{
-                font-size: 2em;
-            }}
-
-            .stats-container {{
-                grid-template-columns: 1fr;
-            }}
-
-            iframe {{
-                height: 500px;
+        @media (max-width: 640px) {{
+            .footer {{
+                padding: 14px 18px;
+                font-size: 12px;
             }}
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🗺️ My Activity Heatmap</h1>
-            <p class="subtitle">Visualizing my Strava adventures</p>
-        </header>
-
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-value">{stats.get('total_activities', 0)}</div>
-                <div class="stat-label">Activities</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">{f"{stats.get('total_gps_points', 0):,}" if stats.get('total_gps_points') else '0'}</div>
-                <div class="stat-label">GPS Points</div>
-            </div>
-            {f'''<div class="stat-card">
-                <div class="stat-value">{stats.get('total_distance_km', 0):,}</div>
-                <div class="stat-label">Kilometers</div>
-            </div>''' if stats.get('total_distance_km') else ''}
-            <div class="stat-card">
-                <div class="stat-value">{len(stats.get('activity_types', {}))}</div>
-                <div class="stat-label">Activity Types</div>
-            </div>
-        </div>
-
-        <div class="map-container">
-            <div class="map-header">
-                <h2>Interactive Heatmap</h2>
-            </div>
-            <iframe src="heatmap.html" title="Activity Heatmap"></iframe>
-        </div>
-
-        {f'''<div class="activity-types">
-            <h3>Activity Breakdown</h3>
-            {''.join(f'<div class="activity-type"><span class="activity-name">{activity_type}</span><span class="activity-count">{count}</span></div>'
-                     for activity_type, count in sorted(stats.get('activity_types', {}).items(), key=lambda x: x[1], reverse=True))}
-        </div>''' if stats.get('activity_types') else ''}
-
-        <footer>
-            <p>Built with Python, Folium, and Strava API</p>
-            {f'<div class="last-updated">Last updated: {datetime.fromisoformat(stats["generated"]).strftime("%B %d, %Y at %I:%M %p")}</div>' if stats.get('generated') else ''}
-        </footer>
+    <div class="map-container">
+        <iframe src="heatmap.html" title="Activity Heatmap"></iframe>
+    </div>
+    <div class="footer">
+        <span class="footer-name">Jesse Alloy</span>
+        <span class="footer-count">{stats.get('total_activities', 0)} activities</span>
     </div>
 </body>
 </html>
