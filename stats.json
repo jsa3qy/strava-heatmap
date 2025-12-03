@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-03T01:59:08.868873",
+  "generated": "2025-12-03T02:16:50.025369",
   "total_activities": 83,
   "total_gps_points": 293147,
   "total_distance_km": 756.2,
@@ -13,6 +13,12 @@
   "date_range": {
     "first": "2025-08-14",
     "last": "2025-12-01"
+  },
+  "last_activity": {
+    "name": "Afternoon Trail Run",
+    "type": "Run",
+    "date": "Dec 01, 2025",
+    "distance_km": 12.9
   },
   "center": {
     "lat": 56.9266,
