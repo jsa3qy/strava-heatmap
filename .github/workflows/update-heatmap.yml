@@ -81,14 +81,18 @@ jobs:
         run: |
           python3 build_website.py
 
+      - name: Prepare deployment files
+        run: |
+          mkdir -p deploy
+          cp index.html deploy/
+          cp heatmap.html deploy/
+          cp stats.json deploy/
+          ls -la deploy/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./deploy
           publish_branch: gh-pages
           keep_files: false
-          include_assets: |
-            index.html
-            heatmap.html
-            stats.json
