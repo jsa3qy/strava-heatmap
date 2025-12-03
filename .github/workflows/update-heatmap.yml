@@ -79,13 +79,12 @@ jobs:
 
       - name: Build website
         run: |
-          python3 build_website.py
+          python3 build_website_direct.py
 
       - name: Prepare deployment files
         run: |
           mkdir -p deploy
           cp index.html deploy/
-          cp heatmap.html deploy/
           cp stats.json deploy/
           ls -la deploy/
 
