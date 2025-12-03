@@ -73,10 +73,6 @@ jobs:
         run: |
           python3 generate_heatmap.py
 
-      - name: Generate static heatmap for mobile
-        run: |
-          python3 generate_static_heatmap.py
-
       - name: Generate statistics
         run: |
           python3 generate_stats.py
@@ -95,7 +91,6 @@ jobs:
           include_assets: |
             index.html
             heatmap.html
-            heatmap_static.png
             stats.json
 
       - name: Commit updated data files
