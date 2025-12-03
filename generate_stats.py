@@ -49,19 +49,35 @@ class StatsGenerator:
                 total_distance += distance
                 activities_with_distance += 1
 
-        # Time range
-        times = []
+        # Time range and find last activity
+        times_with_features = []
         for feature in features:
             time_str = feature['properties'].get('time')
             if time_str:
                 try:
                     time = datetime.fromisoformat(time_str.replace('Z', '+00:00'))
-                    times.append(time)
+                    times_with_features.append((time, feature))
                 except:
                     pass
 
-        first_activity = min(times).strftime('%Y-%m-%d') if times else None
-        last_activity = max(times).strftime('%Y-%m-%d') if times else None
+        first_activity = None
+        last_activity = None
+        last_activity_details = None
+
+        if times_with_features:
+            times_with_features.sort(key=lambda x: x[0])
+            first_activity = times_with_features[0][0].strftime('%Y-%m-%d')
+
+            # Get last activity details
+            last_time, last_feature = times_with_features[-1]
+            last_activity = last_time.strftime('%Y-%m-%d')
+
+            last_activity_details = {
+                'name': last_feature['properties'].get('name', 'Unnamed'),
+                'type': last_feature['properties'].get('type', 'Activity'),
+                'date': last_time.strftime('%b %d, %Y'),
+                'distance_km': round(last_feature['properties'].get('distance', 0) / 1000, 1) if last_feature['properties'].get('distance') else None
+            }
 
         # Calculate center point
         all_coords = []
@@ -83,6 +99,7 @@ class StatsGenerator:
                 'first': first_activity,
                 'last': last_activity
             },
+            'last_activity': last_activity_details,
             'center': {
                 'lat': round(avg_lat, 4),
                 'lon': round(avg_lon, 4)

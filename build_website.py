@@ -85,27 +85,44 @@ def build_website():
             background: #f5f5f5;
             padding: 18px 28px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 32px;
             border-top: 1px solid #d4d4d4;
             font-size: 13px;
             letter-spacing: 0.02em;
         }}
 
-        .footer-name {{
+        .footer-item {{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+
+        .footer-label {{
             font-weight: 400;
             color: #171717;
         }}
 
-        .footer-count {{
+        .footer-value {{
             font-weight: 300;
             color: #737373;
         }}
 
-        @media (max-width: 640px) {{
+        .footer-separator {{
+            color: #d4d4d4;
+        }}
+
+        @media (max-width: 768px) {{
             .footer {{
                 padding: 14px 18px;
                 font-size: 12px;
+                flex-direction: column;
+                gap: 8px;
+            }}
+
+            .footer-separator {{
+                display: none;
             }}
         }}
     </style>
@@ -116,8 +133,22 @@ def build_website():
         <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe" onload="hideLoading()"></iframe>
     </div>
     <div class="footer">
-        <span class="footer-name">Jesse Alloy</span>
-        <span class="footer-count">{stats.get('total_activities', 0)} activities</span>
+        <div class="footer-item">
+            <span class="footer-label">Jesse Alloy</span>
+        </div>
+        <span class="footer-separator">·</span>
+        <div class="footer-item">
+            <span class="footer-value">{stats.get('total_activities', 0)} activities</span>
+        </div>
+        {f'''<span class="footer-separator">·</span>
+        <div class="footer-item">
+            <span class="footer-label">Latest:</span>
+            <span class="footer-value">{stats['last_activity']['name']}</span>
+        </div>
+        <span class="footer-separator">·</span>
+        <div class="footer-item">
+            <span class="footer-value">{stats['last_activity']['date']}</span>
+        </div>''' if stats.get('last_activity') else ''}
     </div>
     <script>
         function hideLoading() {{
