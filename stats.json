@@ -1,0 +1,21 @@
+{
+  "generated": "2025-12-03T01:45:24.868221",
+  "total_activities": 83,
+  "total_gps_points": 293147,
+  "total_distance_km": 756.2,
+  "activity_types": {
+    "Run": 75,
+    "BackcountrySki": 2,
+    "NordicSki": 3,
+    "Walk": 2,
+    "Hike": 1
+  },
+  "date_range": {
+    "first": "2025-08-14",
+    "last": "2025-12-01"
+  },
+  "center": {
+    "lat": 56.9266,
+    "lon": -120.3747
+  }
+}
