@@ -1,10 +1,10 @@
 {
-  "generated": "2025-12-08T06:23:06.142117",
-  "total_activities": 90,
-  "total_gps_points": 315432,
-  "total_distance_km": 821.7,
+  "generated": "2025-12-09T06:21:48.248410",
+  "total_activities": 92,
+  "total_gps_points": 317391,
+  "total_distance_km": 827.8,
   "activity_types": {
-    "Run": 80,
+    "Run": 82,
     "BackcountrySki": 2,
     "NordicSki": 5,
     "Walk": 2,
@@ -12,16 +12,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2025-12-07"
+    "last": "2025-12-08"
   },
   "last_activity": {
-    "name": "Arctic Valley Half",
+    "name": "Lunch Run",
     "type": "Run",
-    "date": "Dec 07, 2025",
-    "distance_km": 21.4
+    "date": "Dec 08, 2025",
+    "distance_km": 0.8
   },
   "center": {
-    "lat": 57.2296,
-    "lon": -122.4453
+    "lat": 57.2539,
+    "lon": -122.6148
   }
 }
