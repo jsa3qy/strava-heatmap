@@ -1,10 +1,10 @@
 {
-  "generated": "2025-12-13T06:19:08.199660",
-  "total_activities": 94,
-  "total_gps_points": 323125,
-  "total_distance_km": 843.2,
+  "generated": "2025-12-14T06:19:43.543936",
+  "total_activities": 95,
+  "total_gps_points": 327917,
+  "total_distance_km": 855.0,
   "activity_types": {
-    "Run": 84,
+    "Run": 85,
     "BackcountrySki": 2,
     "NordicSki": 5,
     "Walk": 2,
@@ -12,16 +12,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2025-12-12"
+    "last": "2025-12-13"
   },
   "last_activity": {
-    "name": "Payment Processing Run",
+    "name": "Morning Trail Run",
     "type": "Run",
-    "date": "Dec 12, 2025",
-    "distance_km": 12.1
+    "date": "Dec 13, 2025",
+    "distance_km": 11.8
   },
   "center": {
-    "lat": 56.9877,
-    "lon": -122.7049
+    "lat": 56.7083,
+    "lon": -122.7024
   }
 }
