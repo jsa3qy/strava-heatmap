@@ -1,10 +1,10 @@
 {
-  "generated": "2025-12-25T06:21:41.665588",
-  "total_activities": 104,
-  "total_gps_points": 349687,
-  "total_distance_km": 929.0,
+  "generated": "2025-12-26T06:21:22.302270",
+  "total_activities": 105,
+  "total_gps_points": 352573,
+  "total_distance_km": 937.1,
   "activity_types": {
-    "Run": 89,
+    "Run": 90,
     "BackcountrySki": 2,
     "NordicSki": 6,
     "Walk": 2,
@@ -13,16 +13,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2025-12-24"
+    "last": "2025-12-25"
   },
   "last_activity": {
-    "name": "Morning Run",
+    "name": "Woe Run",
     "type": "Run",
-    "date": "Dec 24, 2025",
-    "distance_km": 6.5
+    "date": "Dec 25, 2025",
+    "distance_km": 8.1
   },
   "center": {
-    "lat": 56.1675,
-    "lon": -123.2492
+    "lat": 55.9243,
+    "lon": -122.8957
   }
 }
