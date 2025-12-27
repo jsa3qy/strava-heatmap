@@ -110,6 +110,71 @@ class HeatmapGenerator:
 
         return m
 
+    def _inject_mobile_fix(self):
+        """Inject JavaScript to fix mobile resize/orientation issues"""
+        mobile_fix_script = '''
+<script>
+// Mobile resize fix for Leaflet
+(function() {
+    function getMapInstance() {
+        // Find the Leaflet map instance
+        var mapContainers = document.querySelectorAll('.leaflet-container');
+        if (mapContainers.length > 0) {
+            var mapEl = mapContainers[0];
+            if (mapEl._leaflet_id) {
+                // Access map via Leaflet's internal reference
+                for (var key in window) {
+                    if (window[key] instanceof L.Map) {
+                        return window[key];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function invalidateMapSize() {
+        var map = getMapInstance();
+        if (map) {
+            setTimeout(function() {
+                map.invalidateSize();
+            }, 100);
+        }
+    }
+
+    // Handle resize and orientation changes
+    window.addEventListener('resize', invalidateMapSize);
+    window.addEventListener('orientationchange', function() {
+        setTimeout(invalidateMapSize, 200);
+    });
+
+    // Also invalidate on load (for iframe embedding)
+    window.addEventListener('load', function() {
+        setTimeout(invalidateMapSize, 500);
+    });
+
+    // Listen for parent frame resize messages
+    window.addEventListener('message', function(e) {
+        if (e.data === 'resize') {
+            invalidateMapSize();
+        }
+    });
+})();
+</script>
+'''
+        # Read the generated HTML
+        with open(self.output_file, 'r') as f:
+            html = f.read()
+
+        # Inject the fix before </body>
+        html = html.replace('</body>', mobile_fix_script + '</body>')
+
+        # Write back
+        with open(self.output_file, 'w') as f:
+            f.write(html)
+
+        print("Injected mobile resize fix")
+
     def generate(self, open_browser=True):
         """Main generation process"""
         if not self.load_geojson():
@@ -124,6 +189,10 @@ class HeatmapGenerator:
 
         # Save to HTML
         m.save(self.output_file)
+
+        # Post-process to add mobile resize handling
+        self._inject_mobile_fix()
+
         print(f"\n{'='*60}")
         print(f"✓ Heatmap saved to {self.output_file}")
         print(f"{'='*60}")
