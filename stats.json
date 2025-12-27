@@ -1,10 +1,10 @@
 {
-  "generated": "2025-12-27T06:20:25.638201",
-  "total_activities": 106,
-  "total_gps_points": 356010,
-  "total_distance_km": 947.2,
+  "generated": "2025-12-27T16:02:04.549744",
+  "total_activities": 107,
+  "total_gps_points": 360390,
+  "total_distance_km": 960.3,
   "activity_types": {
-    "Run": 91,
+    "Run": 92,
     "BackcountrySki": 2,
     "NordicSki": 6,
     "Walk": 2,
@@ -13,16 +13,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2025-12-26"
+    "last": "2025-12-27"
   },
   "last_activity": {
     "name": "Morning Run",
     "type": "Run",
-    "date": "Dec 26, 2025",
-    "distance_km": 10.1
+    "date": "Dec 27, 2025",
+    "distance_km": 13.2
   },
   "center": {
-    "lat": 55.6398,
-    "lon": -122.4822
+    "lat": 55.2854,
+    "lon": -121.9666
   }
 }
