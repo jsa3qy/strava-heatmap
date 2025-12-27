@@ -111,69 +111,129 @@ class HeatmapGenerator:
         return m
 
     def _inject_mobile_fix(self):
-        """Inject JavaScript to fix mobile resize/orientation issues"""
-        mobile_fix_script = '''
-<script>
-// Mobile resize fix for Leaflet
-(function() {
-    function getMapInstance() {
-        // Find the Leaflet map instance
-        var mapContainers = document.querySelectorAll('.leaflet-container');
-        if (mapContainers.length > 0) {
-            var mapEl = mapContainers[0];
-            if (mapEl._leaflet_id) {
-                // Access map via Leaflet's internal reference
-                for (var key in window) {
-                    if (window[key] instanceof L.Map) {
-                        return window[key];
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    function invalidateMapSize() {
-        var map = getMapInstance();
-        if (map) {
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 100);
-        }
-    }
-
-    // Handle resize and orientation changes
-    window.addEventListener('resize', invalidateMapSize);
-    window.addEventListener('orientationchange', function() {
-        setTimeout(invalidateMapSize, 200);
-    });
-
-    // Also invalidate on load (for iframe embedding)
-    window.addEventListener('load', function() {
-        setTimeout(invalidateMapSize, 500);
-    });
-
-    // Listen for parent frame resize messages
-    window.addEventListener('message', function(e) {
-        if (e.data === 'resize') {
-            invalidateMapSize();
-        }
-    });
-})();
-</script>
-'''
+        """Inject mobile fixes and footer directly into heatmap.html"""
         # Read the generated HTML
         with open(self.output_file, 'r') as f:
             html = f.read()
 
-        # Inject the fix before </body>
-        html = html.replace('</body>', mobile_fix_script + '</body>')
+        # Fix the viewport meta tag for mobile (add viewport-fit=cover)
+        html = html.replace(
+            'width=device-width,\n                initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+            'width=device-width, initial-scale=1.0, viewport-fit=cover'
+        )
+
+        # Fix body/html sizing - replace folium's default with explicit sizing
+        html = html.replace(
+            '<style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>',
+            '''<style>
+html, body {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+</style>'''
+        )
+
+        # Add footer styles and content before </body>
+        footer_content = '''
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400&display=swap');
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f5f5f5;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    border-top: 1px solid #d4d4d4;
+    font-size: 13px;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: 0.02em;
+    z-index: 1000;
+}
+.footer-item { display: flex; align-items: center; gap: 6px; }
+.footer-label { font-weight: 400; color: #171717; }
+.footer-value { font-weight: 300; color: #737373; }
+.footer-separator { color: #d4d4d4; }
+@media (max-width: 768px) {
+    .footer {
+        padding: 14px 18px;
+        font-size: 12px;
+        flex-direction: column;
+        gap: 8px;
+        padding-bottom: max(14px, env(safe-area-inset-bottom));
+    }
+    .footer-separator { display: none; }
+}
+/* Force map container to fill viewport minus footer */
+.folium-map {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 70px !important;
+    width: auto !important;
+    height: calc(100vh - 70px) !important;
+    height: calc(100dvh - 70px) !important;
+}
+@media (max-width: 768px) {
+    .folium-map {
+        bottom: 85px !important;
+        height: calc(100vh - 85px) !important;
+        height: calc(100dvh - 85px) !important;
+    }
+}
+</style>
+<div class="footer">
+    <div class="footer-item">
+        <span class="footer-label">Jesse Alloy</span>
+    </div>
+    <span class="footer-separator">·</span>
+    <div class="footer-item">
+        <span class="footer-value">84 activities</span>
+    </div>
+    <span class="footer-separator">·</span>
+    <div class="footer-item">
+        <span class="footer-label">Latest:</span>
+        <span class="footer-value">Afternoon Trail Run</span>
+    </div>
+    <span class="footer-separator">·</span>
+    <div class="footer-item">
+        <span class="footer-value">Dec 01, 2025</span>
+    </div>
+</div>
+'''
+        # Add script to invalidate map size after load
+        resize_script = '''
+<script>
+// Wait for map to initialize then fix size
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        for (var key in window) {
+            try {
+                if (key.indexOf('map_') === 0 && window[key] && window[key].invalidateSize) {
+                    window[key].invalidateSize();
+                }
+            } catch(e) {}
+        }
+    }, 100);
+});
+</script>
+'''
+        html = html.replace('</body>', footer_content + resize_script + '</body>')
 
         # Write back
         with open(self.output_file, 'w') as f:
             f.write(html)
 
-        print("Injected mobile resize fix")
+        print("Injected mobile fixes and footer")
 
     def generate(self, open_browser=True):
         """Main generation process"""
