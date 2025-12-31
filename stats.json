@@ -1,10 +1,10 @@
 {
-  "generated": "2025-12-30T06:21:58.278366",
-  "total_activities": 108,
-  "total_gps_points": 360451,
-  "total_distance_km": 960.4,
+  "generated": "2025-12-31T06:22:19.316192",
+  "total_activities": 109,
+  "total_gps_points": 367722,
+  "total_distance_km": 977.4,
   "activity_types": {
-    "Run": 92,
+    "Run": 93,
     "BackcountrySki": 2,
     "NordicSki": 6,
     "Walk": 2,
@@ -14,16 +14,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2025-12-28"
+    "last": "2025-12-30"
   },
   "last_activity": {
-    "name": "Night Workout",
-    "type": "Workout",
-    "date": "Dec 28, 2025",
-    "distance_km": 0.0
+    "name": "Lunch Trail Run",
+    "type": "Run",
+    "date": "Dec 30, 2025",
+    "distance_km": 17.0
   },
   "center": {
-    "lat": 55.2805,
-    "lon": -121.9595
+    "lat": 55.3954,
+    "lon": -122.5096
   }
 }
