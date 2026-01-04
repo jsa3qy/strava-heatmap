@@ -1,12 +1,12 @@
 {
-  "generated": "2026-01-03T06:20:41.724930",
-  "total_activities": 113,
-  "total_gps_points": 385379,
-  "total_distance_km": 1011.1,
+  "generated": "2026-01-04T06:20:40.040895",
+  "total_activities": 114,
+  "total_gps_points": 386352,
+  "total_distance_km": 1016.1,
   "activity_types": {
     "Run": 96,
     "BackcountrySki": 2,
-    "NordicSki": 6,
+    "NordicSki": 7,
     "Walk": 2,
     "Hike": 2,
     "IceSkate": 4,
@@ -14,16 +14,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-01-02"
+    "last": "2026-01-03"
   },
   "last_activity": {
-    "name": "Lunch Run",
-    "type": "Run",
-    "date": "Jan 02, 2026",
-    "distance_km": 11.3
+    "name": "Skate Ski #6",
+    "type": "NordicSki",
+    "date": "Jan 03, 2026",
+    "distance_km": 5.0
   },
   "center": {
-    "lat": 55.6754,
-    "lon": -123.7333
+    "lat": 55.6892,
+    "lon": -123.7996
   }
 }
