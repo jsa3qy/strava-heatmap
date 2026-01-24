@@ -1,30 +1,30 @@
 {
-  "generated": "2026-01-23T06:22:55.265826",
-  "total_activities": 124,
-  "total_gps_points": 416480,
-  "total_distance_km": 1076.1,
+  "generated": "2026-01-24T06:20:57.487654",
+  "total_activities": 125,
+  "total_gps_points": 418074,
+  "total_distance_km": 1078.6,
   "activity_types": {
     "Run": 99,
     "BackcountrySki": 2,
     "NordicSki": 8,
     "Walk": 4,
-    "Hike": 5,
+    "Hike": 6,
     "IceSkate": 4,
     "Workout": 1,
     "AlpineSki": 1
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-01-22"
+    "last": "2026-01-23"
   },
   "last_activity": {
-    "name": "Afternoon Walk",
-    "type": "Walk",
-    "date": "Jan 22, 2026",
-    "distance_km": 0.1
+    "name": "Afternoon Hike",
+    "type": "Hike",
+    "date": "Jan 23, 2026",
+    "distance_km": 2.5
   },
   "center": {
-    "lat": 49.1864,
-    "lon": -120.6772
+    "lat": 48.7602,
+    "lon": -120.4454
   }
 }
