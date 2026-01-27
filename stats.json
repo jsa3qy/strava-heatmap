@@ -1,13 +1,13 @@
 {
-  "generated": "2026-01-26T06:26:17.449928",
-  "total_activities": 126,
-  "total_gps_points": 419886,
-  "total_distance_km": 1084.1,
+  "generated": "2026-01-27T06:23:50.868363",
+  "total_activities": 127,
+  "total_gps_points": 419976,
+  "total_distance_km": 1084.5,
   "activity_types": {
     "Run": 100,
     "BackcountrySki": 2,
     "NordicSki": 8,
-    "Walk": 4,
+    "Walk": 5,
     "Hike": 6,
     "IceSkate": 4,
     "Workout": 1,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-01-25"
+    "last": "2026-01-26"
   },
   "last_activity": {
-    "name": "Afternoon Run",
-    "type": "Run",
-    "date": "Jan 25, 2026",
-    "distance_km": 5.4
+    "name": "Afternoon Wok",
+    "type": "Walk",
+    "date": "Jan 26, 2026",
+    "distance_km": 0.4
   },
   "center": {
-    "lat": 48.3204,
-    "lon": -120.2316
+    "lat": 48.3029,
+    "lon": -120.221
   }
 }
