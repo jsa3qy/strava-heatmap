@@ -1,8 +1,8 @@
 {
-  "generated": "2026-02-01T06:39:08.993915",
-  "total_activities": 129,
-  "total_gps_points": 428677,
-  "total_distance_km": 1107.6,
+  "generated": "2026-02-02T06:53:49.927464",
+  "total_activities": 130,
+  "total_gps_points": 431283,
+  "total_distance_km": 1122.3,
   "activity_types": {
     "Run": 102,
     "BackcountrySki": 2,
@@ -11,20 +11,20 @@
     "Hike": 6,
     "IceSkate": 4,
     "Workout": 1,
-    "AlpineSki": 1
+    "AlpineSki": 2
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-01-31"
+    "last": "2026-02-01"
   },
   "last_activity": {
-    "name": "Afternoon Trail Run",
-    "type": "Run",
-    "date": "Jan 31, 2026",
-    "distance_km": 16.1
+    "name": "Lunch Alpine Ski",
+    "type": "AlpineSki",
+    "date": "Feb 01, 2026",
+    "distance_km": 14.7
   },
   "center": {
-    "lat": 48.564,
-    "lon": -120.8215
+    "lat": 48.6389,
+    "lon": -120.9923
   }
 }
