@@ -1,10 +1,10 @@
 {
-  "generated": "2026-02-11T06:52:50.802817",
-  "total_activities": 137,
-  "total_gps_points": 448755,
-  "total_distance_km": 1178.6,
+  "generated": "2026-02-12T06:52:43.929199",
+  "total_activities": 138,
+  "total_gps_points": 452733,
+  "total_distance_km": 1189.1,
   "activity_types": {
-    "Run": 108,
+    "Run": 109,
     "BackcountrySki": 2,
     "NordicSki": 9,
     "Walk": 5,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-02-11"
+    "last": "2026-02-12"
   },
   "last_activity": {
-    "name": "Afternoon Run",
+    "name": "Afternoon Trail Run",
     "type": "Run",
-    "date": "Feb 11, 2026",
-    "distance_km": 8.9
+    "date": "Feb 12, 2026",
+    "distance_km": 10.5
   },
   "center": {
-    "lat": 49.1269,
-    "lon": -122.1153
+    "lat": 49.2327,
+    "lon": -122.3586
   }
 }
