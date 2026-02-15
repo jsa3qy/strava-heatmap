@@ -1,11 +1,11 @@
 {
-  "generated": "2026-02-14T06:34:37.059759",
-  "total_activities": 139,
-  "total_gps_points": 455131,
-  "total_distance_km": 1193.4,
+  "generated": "2026-02-15T06:40:53.347682",
+  "total_activities": 140,
+  "total_gps_points": 457662,
+  "total_distance_km": 1197.0,
   "activity_types": {
     "Run": 109,
-    "BackcountrySki": 3,
+    "BackcountrySki": 4,
     "NordicSki": 9,
     "Walk": 5,
     "Hike": 6,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-02-13"
+    "last": "2026-02-14"
   },
   "last_activity": {
-    "name": "Lunch Backcountry Ski",
+    "name": "Morning Backcountry Ski",
     "type": "BackcountrySki",
-    "date": "Feb 13, 2026",
-    "distance_km": 4.3
+    "date": "Feb 14, 2026",
+    "distance_km": 3.6
   },
   "center": {
-    "lat": 49.2935,
-    "lon": -122.5001
+    "lat": 49.3568,
+    "lon": -122.6479
   }
 }
