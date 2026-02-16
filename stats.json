@@ -1,11 +1,11 @@
 {
-  "generated": "2026-02-15T06:40:53.347682",
-  "total_activities": 140,
-  "total_gps_points": 457662,
-  "total_distance_km": 1197.0,
+  "generated": "2026-02-16T06:54:13.033794",
+  "total_activities": 141,
+  "total_gps_points": 462460,
+  "total_distance_km": 1203.4,
   "activity_types": {
     "Run": 109,
-    "BackcountrySki": 4,
+    "BackcountrySki": 5,
     "NordicSki": 9,
     "Walk": 5,
     "Hike": 6,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-02-14"
+    "last": "2026-02-15"
   },
   "last_activity": {
-    "name": "Morning Backcountry Ski",
+    "name": "Fresno",
     "type": "BackcountrySki",
-    "date": "Feb 14, 2026",
-    "distance_km": 3.6
+    "date": "Feb 15, 2026",
+    "distance_km": 6.4
   },
   "center": {
-    "lat": 49.3568,
-    "lon": -122.6479
+    "lat": 49.4743,
+    "lon": -122.9264
   }
 }
