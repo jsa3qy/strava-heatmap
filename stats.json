@@ -1,11 +1,11 @@
 {
-  "generated": "2026-02-16T06:54:13.033794",
-  "total_activities": 141,
-  "total_gps_points": 462460,
-  "total_distance_km": 1203.4,
+  "generated": "2026-02-17T06:48:06.387544",
+  "total_activities": 142,
+  "total_gps_points": 466536,
+  "total_distance_km": 1213.6,
   "activity_types": {
     "Run": 109,
-    "BackcountrySki": 5,
+    "BackcountrySki": 6,
     "NordicSki": 9,
     "Walk": 5,
     "Hike": 6,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-02-15"
+    "last": "2026-02-16"
   },
   "last_activity": {
-    "name": "Fresno",
+    "name": "Micro Dot ish",
     "type": "BackcountrySki",
-    "date": "Feb 15, 2026",
-    "distance_km": 6.4
+    "date": "Feb 16, 2026",
+    "distance_km": 10.2
   },
   "center": {
-    "lat": 49.4743,
-    "lon": -122.9264
+    "lat": 49.5818,
+    "lon": -123.1567
   }
 }
