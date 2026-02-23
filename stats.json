@@ -1,11 +1,11 @@
 {
-  "generated": "2026-02-22T06:37:07.395649",
-  "total_activities": 147,
-  "total_gps_points": 476679,
-  "total_distance_km": 1252.3,
+  "generated": "2026-02-23T06:54:59.295831",
+  "total_activities": 148,
+  "total_gps_points": 482690,
+  "total_distance_km": 1267.2,
   "activity_types": {
     "Run": 112,
-    "BackcountrySki": 6,
+    "BackcountrySki": 7,
     "NordicSki": 10,
     "Walk": 5,
     "Hike": 6,
@@ -15,16 +15,16 @@
   },
   "date_range": {
     "first": "2025-08-14",
-    "last": "2026-02-21"
+    "last": "2026-02-22"
   },
   "last_activity": {
-    "name": "Skate Ski #9",
-    "type": "NordicSki",
-    "date": "Feb 21, 2026",
-    "distance_km": 11.4
+    "name": "The Notch",
+    "type": "BackcountrySki",
+    "date": "Feb 22, 2026",
+    "distance_km": 14.9
   },
   "center": {
-    "lat": 49.8287,
-    "lon": -123.7261
+    "lat": 49.9676,
+    "lon": -124.0415
   }
 }
