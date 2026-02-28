@@ -29,11 +29,26 @@ def build_website():
     # We'll embed it in an iframe instead
 
     # Build minimalist full-screen page
+    total = stats.get('total_activities', 0)
+    last = stats.get('last_activity')
+
+    last_activity_html = ''
+    if last:
+        last_activity_html = f'''<span class="footer-separator">&middot;</span>
+        <div class="footer-item">
+            <span class="footer-label">Latest:</span>
+            <span class="footer-value">{last['name']}</span>
+        </div>
+        <span class="footer-separator">&middot;</span>
+        <div class="footer-item">
+            <span class="footer-value">{last['date']}</span>
+        </div>'''
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Activity Heatmap</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,17 +60,22 @@ def build_website():
             box-sizing: border-box;
         }}
 
-        body {{
+        html, body {{
             font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
+            background: #fafafa;
+        }}
+
+        body {{
             display: flex;
             flex-direction: column;
-            background: #fafafa;
         }}
 
         .map-container {{
             flex: 1;
+            min-height: 0;
             position: relative;
             overflow: hidden;
             background: #f5f5f5;
@@ -69,6 +89,7 @@ def build_website():
             color: #737373;
             font-size: 14px;
             font-weight: 300;
+            z-index: 1;
         }}
 
         iframe {{
@@ -76,14 +97,13 @@ def build_website():
             height: 100%;
             border: none;
             display: block;
-            touch-action: manipulation;
-            -webkit-overflow-scrolling: touch;
-            background: transparent;
         }}
 
         .footer {{
+            flex-shrink: 0;
             background: #f5f5f5;
-            padding: 18px 28px;
+            padding: 16px 28px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -115,10 +135,11 @@ def build_website():
 
         @media (max-width: 768px) {{
             .footer {{
-                padding: 14px 18px;
+                padding: 12px 18px;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
                 font-size: 12px;
                 flex-direction: column;
-                gap: 8px;
+                gap: 6px;
             }}
 
             .footer-separator {{
@@ -130,51 +151,29 @@ def build_website():
 <body>
     <div class="map-container">
         <div class="loading" id="loading">Loading map...</div>
-        <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe" onload="hideLoading()"></iframe>
+        <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe"
+                allow="geolocation" loading="eager" onload="hideLoading()"></iframe>
     </div>
     <div class="footer">
         <div class="footer-item">
             <span class="footer-label">Jesse Alloy</span>
         </div>
-        <span class="footer-separator">·</span>
+        <span class="footer-separator">&middot;</span>
         <div class="footer-item">
-            <span class="footer-value">{stats.get('total_activities', 0)} activities</span>
+            <span class="footer-value">{total} activities</span>
         </div>
-        {f'''<span class="footer-separator">·</span>
-        <div class="footer-item">
-            <span class="footer-label">Latest:</span>
-            <span class="footer-value">{stats['last_activity']['name']}</span>
-        </div>
-        <span class="footer-separator">·</span>
-        <div class="footer-item">
-            <span class="footer-value">{stats['last_activity']['date']}</span>
-        </div>''' if stats.get('last_activity') else ''}
+        {last_activity_html}
     </div>
     <script>
         function hideLoading() {{
-            const loading = document.getElementById('loading');
-            if (loading) {{
-                loading.style.display = 'none';
-            }}
+            document.getElementById('loading').style.display = 'none';
         }}
-
-        // Fallback timeout - if map doesn't load in 10 seconds, show error
         setTimeout(function() {{
-            const loading = document.getElementById('loading');
-            if (loading && loading.style.display !== 'none') {{
-                loading.textContent = 'Map failed to load. Try refreshing.';
+            var el = document.getElementById('loading');
+            if (el && el.style.display !== 'none') {{
+                el.textContent = 'Map failed to load. Try refreshing.';
             }}
         }}, 10000);
-
-        // Also try to detect iframe load errors
-        const iframe = document.getElementById('map-iframe');
-        iframe.onerror = function() {{
-            const loading = document.getElementById('loading');
-            if (loading) {{
-                loading.textContent = 'Error loading map';
-                loading.style.display = 'block';
-            }}
-        }};
     </script>
 </body>
 </html>
