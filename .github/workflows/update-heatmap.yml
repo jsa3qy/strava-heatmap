@@ -83,8 +83,6 @@ jobs:
         run: |
           mkdir -p deploy
           cp index.html deploy/
-          cp heatmap.html deploy/
-          cp stats.json deploy/
           ls -la deploy/
 
       - name: Deploy to GitHub Pages
