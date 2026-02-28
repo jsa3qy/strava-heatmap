@@ -61,15 +61,14 @@ class HeatmapGenerator:
 
         Args:
             gradient: Color gradient dictionary
-            center: [lat, lon] to center the map (default: Anchorage, AK)
+            center: [lat, lon] to center the map (default: calculated from data)
             zoom_start: Initial zoom level
         """
         if not self.all_points:
             return None
 
-        # Use Anchorage, Alaska as default center (1.5 miles SE of downtown)
         if center is None:
-            center = [61.2027, -149.8691]  # Anchorage, AK
+            center = self.calculate_center()
 
         print(f"Map center: {center[0]:.4f}, {center[1]:.4f}")
 
@@ -111,109 +110,40 @@ class HeatmapGenerator:
         return m
 
     def _inject_mobile_fix(self):
-        """Inject mobile fixes and footer directly into heatmap.html"""
-        # Read the generated HTML
+        """Inject mobile viewport fixes into heatmap.html.
+
+        The footer lives in index.html (the parent page), so heatmap.html
+        should be a clean full-viewport map with no footer.
+        """
         with open(self.output_file, 'r') as f:
             html = f.read()
 
-        # Fix the viewport meta tag for mobile (add viewport-fit=cover)
+        # Fix the viewport meta tag for proper mobile handling
         html = html.replace(
             'width=device-width,\n                initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
             'width=device-width, initial-scale=1.0, viewport-fit=cover'
         )
 
-        # Fix body/html sizing - replace folium's default with explicit sizing
+        # Fix body/html sizing for full viewport
         html = html.replace(
             '<style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>',
-            '''<style>
-html, body {
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-</style>'''
+            '<style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;overflow: hidden;}</style>'
         )
 
-        # Add footer styles and content before </body>
-        footer_content = '''
+        # Ensure the map container fills the entire viewport
+        mobile_fix = '''
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400&display=swap');
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #f5f5f5;
-    padding: 18px 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    border-top: 1px solid #d4d4d4;
-    font-size: 13px;
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    letter-spacing: 0.02em;
-    z-index: 1000;
-}
-.footer-item { display: flex; align-items: center; gap: 6px; }
-.footer-label { font-weight: 400; color: #171717; }
-.footer-value { font-weight: 300; color: #737373; }
-.footer-separator { color: #d4d4d4; }
-@media (max-width: 768px) {
-    .footer {
-        padding: 14px 18px;
-        font-size: 12px;
-        flex-direction: column;
-        gap: 8px;
-        padding-bottom: max(14px, env(safe-area-inset-bottom));
-    }
-    .footer-separator { display: none; }
-}
-/* Force map container to fill viewport minus footer */
 .folium-map {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    bottom: 70px !important;
-    width: auto !important;
-    height: calc(100vh - 70px) !important;
-    height: calc(100dvh - 70px) !important;
-}
-@media (max-width: 768px) {
-    .folium-map {
-        bottom: 85px !important;
-        height: calc(100vh - 85px) !important;
-        height: calc(100dvh - 85px) !important;
-    }
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 </style>
-<div class="footer">
-    <div class="footer-item">
-        <span class="footer-label">Jesse Alloy</span>
-    </div>
-    <span class="footer-separator">·</span>
-    <div class="footer-item">
-        <span class="footer-value">84 activities</span>
-    </div>
-    <span class="footer-separator">·</span>
-    <div class="footer-item">
-        <span class="footer-label">Latest:</span>
-        <span class="footer-value">Afternoon Trail Run</span>
-    </div>
-    <span class="footer-separator">·</span>
-    <div class="footer-item">
-        <span class="footer-value">Dec 01, 2025</span>
-    </div>
-</div>
-'''
-        # Add script to invalidate map size after load
-        resize_script = '''
 <script>
-// Wait for map to initialize then fix size
 window.addEventListener('load', function() {
     setTimeout(function() {
         for (var key in window) {
@@ -227,13 +157,12 @@ window.addEventListener('load', function() {
 });
 </script>
 '''
-        html = html.replace('</body>', footer_content + resize_script + '</body>')
+        html = html.replace('</body>', mobile_fix + '</body>')
 
-        # Write back
         with open(self.output_file, 'w') as f:
             f.write(html)
 
-        print("Injected mobile fixes and footer")
+        print("Injected mobile viewport fixes")
 
     def generate(self, open_browser=True):
         """Main generation process"""
@@ -310,7 +239,6 @@ def main():
             print(f"Available schemes: {', '.join(gradients.keys())}")
 
     generator = HeatmapGenerator()
-    generator.create_heatmap(gradient=gradient)
     generator.generate()
 
 

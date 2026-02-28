@@ -57,8 +57,9 @@ class StatsGenerator:
                 try:
                     time = datetime.fromisoformat(time_str.replace('Z', '+00:00'))
                     times_with_features.append((time, feature))
-                except:
-                    pass
+                except (ValueError, TypeError):
+                    print(f"Warning: Could not parse date '{time_str}'")
+                    continue
 
         first_activity = None
         last_activity = None
