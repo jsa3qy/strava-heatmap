@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Activity Heatmap</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,17 +14,22 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
             font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
+            background: #fafafa;
+        }
+
+        body {
             display: flex;
             flex-direction: column;
-            background: #fafafa;
         }
 
         .map-container {
             flex: 1;
+            min-height: 0;
             position: relative;
             overflow: hidden;
             background: #f5f5f5;
@@ -38,6 +43,7 @@
             color: #737373;
             font-size: 14px;
             font-weight: 300;
+            z-index: 1;
         }
 
         iframe {
@@ -45,14 +51,13 @@
             height: 100%;
             border: none;
             display: block;
-            touch-action: manipulation;
-            -webkit-overflow-scrolling: touch;
-            background: transparent;
         }
 
         .footer {
+            flex-shrink: 0;
             background: #f5f5f5;
-            padding: 18px 28px;
+            padding: 16px 28px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -84,10 +89,11 @@
 
         @media (max-width: 768px) {
             .footer {
-                padding: 14px 18px;
+                padding: 12px 18px;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
                 font-size: 12px;
                 flex-direction: column;
-                gap: 8px;
+                gap: 6px;
             }
 
             .footer-separator {
@@ -99,51 +105,37 @@
 <body>
     <div class="map-container">
         <div class="loading" id="loading">Loading map...</div>
-        <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe" onload="hideLoading()"></iframe>
+        <iframe src="heatmap.html" title="Activity Heatmap" id="map-iframe"
+                allow="geolocation" loading="eager" onload="hideLoading()"></iframe>
     </div>
     <div class="footer">
         <div class="footer-item">
             <span class="footer-label">Jesse Alloy</span>
         </div>
-        <span class="footer-separator">·</span>
+        <span class="footer-separator">&middot;</span>
         <div class="footer-item">
             <span class="footer-value">149 activities</span>
         </div>
-        <span class="footer-separator">·</span>
+        <span class="footer-separator">&middot;</span>
         <div class="footer-item">
             <span class="footer-label">Latest:</span>
             <span class="footer-value">Afternoon Trail Run</span>
         </div>
-        <span class="footer-separator">·</span>
+        <span class="footer-separator">&middot;</span>
         <div class="footer-item">
             <span class="footer-value">Feb 24, 2026</span>
         </div>
     </div>
     <script>
         function hideLoading() {
-            const loading = document.getElementById('loading');
-            if (loading) {
-                loading.style.display = 'none';
-            }
+            document.getElementById('loading').style.display = 'none';
         }
-
-        // Fallback timeout - if map doesn't load in 10 seconds, show error
         setTimeout(function() {
-            const loading = document.getElementById('loading');
-            if (loading && loading.style.display !== 'none') {
-                loading.textContent = 'Map failed to load. Try refreshing.';
+            var el = document.getElementById('loading');
+            if (el && el.style.display !== 'none') {
+                el.textContent = 'Map failed to load. Try refreshing.';
             }
         }, 10000);
-
-        // Also try to detect iframe load errors
-        const iframe = document.getElementById('map-iframe');
-        iframe.onerror = function() {
-            const loading = document.getElementById('loading');
-            if (loading) {
-                loading.textContent = 'Error loading map';
-                loading.style.display = 'block';
-            }
-        };
     </script>
 </body>
 </html>

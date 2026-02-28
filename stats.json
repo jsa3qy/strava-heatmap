@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-28T06:27:00.955012",
+  "generated": "2026-02-28T07:57:32.402114",
   "total_activities": 149,
   "total_gps_points": 484856,
   "total_distance_km": 1273.6,
@@ -10,8 +10,8 @@
     "Walk": 5,
     "Hike": 6,
     "IceSkate": 5,
-    "Workout": 1,
-    "AlpineSki": 2
+    "AlpineSki": 2,
+    "Workout": 1
   },
   "date_range": {
     "first": "2025-08-14",
